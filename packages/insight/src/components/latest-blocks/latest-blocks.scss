@@ -1,0 +1,76 @@
+.blocks-container {
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 30px;
+  background: #fff;
+  margin-top: 35px;
+  margin-bottom: 60px;
+  padding: 30px 25px;
+
+  @media (max-width: map-get($grid-breakpoints, xs)) {
+    padding: 0;
+  }
+
+  > .row {
+    background-color: #eeeeee;
+    border-radius: 10px;
+    h6 {
+      margin: 0;
+      font-size: 15px;
+      line-height: 18px;
+      color: rgba(0, 0, 0, 0.4);
+      font-weight: 500;
+    }
+  }
+
+  &__blocks {
+    margin-top: 15px;
+
+    > .row {
+      margin: 10px 0;
+      &.blocks-cta {
+        margin: 0;
+        .col {
+          padding-bottom: 20px;
+          padding-top: 0;
+        }
+      }
+    }
+
+    .button {
+      background-color: transparent;
+      font-size: 13px;
+      text-decoration: underline;
+      color: #dba734;
+      box-shadow: none;
+      text-transform: none;
+      opacity: 0.8;
+      &:hover {
+        background-color: transparent;
+      }
+    }
+
+    ion-row:not(.blocks-cta) {
+      transition: transform 200ms ease, box-shadow 200ms ease;
+
+      &:hover:not(:last-child) {
+        cursor: pointer;
+        transform: scale(1.02);
+        box-shadow: 0 5px 20px -5px rgba(0, 0, 0, 0.08);
+      }
+
+      a {
+        color: #dba734;
+      }
+    }
+  }
+
+  ion-col,
+  ion-col a {
+    text-align: center;
+    font-size: 11px;
+
+    @media (min-width: map-get($grid-breakpoints, lg)) {
+      font-size: 14px;
+    }
+  }
+}

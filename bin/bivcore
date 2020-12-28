@@ -1,0 +1,27 @@
+#!/usr/bin/env node
+
+const shell = require("./shellHelper");
+require("dotenv").config();
+const homedir = require('os').homedir();
+const configFilePath = process.env.BIVCOIN_NODE_CONFIG_PATH ? process.env.BIVCOIN_NODE_CONFIG_PATH : "~/bivcoin.conf";
+const dataDirPath = process.env.BIVCOIN_NODE_DATA_PATH ? process.env.BIVCOIN_NODE_CONFIG_PATH : "~/bivcoin";
+const configFile = configFilePath.charAt(0) === "~" ? configFilePath.replace('~', homedir) : configFilePath;
+const dataDir = dataDirPath.charAt(0) === "~" ? dataDirPath.replace('~', homedir) : dataDirPath;
+
+shell.series([
+  `bivcoind --conf=${configFile} --datadir=${dataDir}`,
+], function(err){
+   console.log(err);
+});
+
+shell.series([
+  'npm run node',
+], function(err){
+ console.log(err);
+});
+
+shell.series([
+  'npm run insight'
+], function(err){
+ console.log(err);
+});

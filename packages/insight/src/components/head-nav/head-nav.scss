@@ -1,0 +1,170 @@
+head-nav {
+  .header {
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.05);
+  }
+
+  .title {
+    .toolbar-title {
+      padding-left: 0;
+      display: flex;
+    }
+  }
+
+  .search-image-container {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 19px;
+    width: 16px;
+    opacity: 0.5;
+    .search-image {
+      display: block;
+    }
+  }
+
+  .input-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+  }
+
+  .hover-lite {
+    &:hover {
+      color: #d7d8dc !important; //override default ionic on-hover color
+    }
+  }
+
+  .toolbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    ion-title {
+      justify-self: start;
+      font-style: italic;
+      display: block;
+
+      &.logo-header {
+        .toolbar-title {
+          width: auto;
+          cursor: pointer;
+          color: #fff;
+          font-size: 2em;
+          font-style: italic;
+          font-weight: 800;
+        }
+      }
+    }
+
+    ion-buttons {
+      justify-self: end;
+      width: 80px;
+      @media (max-width: 991px) {
+        width: auto;
+      }
+    }
+
+    ion-row {
+      @media (min-width: map-get($grid-breakpoints, lg)) {
+        display: inline-block;
+      }
+    }
+
+    .search {
+      justify-self: center;
+      display: none;
+      position: relative;
+      max-width: 760px;
+      width: 100%;
+      border-radius: 5px;
+      overflow: hidden;
+      @media (min-width: map-get($grid-breakpoints, lg)) {
+        display: inline-block;
+      }
+      vertical-align: middle;
+
+      ion-searchbar {
+        .searchbar-search-icon {
+          right: 13px;
+          left: unset;
+        }
+        &.searchbar-has-focus {
+          .searchbar-search-icon {
+            display: none;
+          }
+          .searchbar-clear-icon {
+            display: block;
+          }
+        }
+      }
+
+      input {
+        padding: 12px 55px 12px 20px;
+        color: color($colors, dark-light);
+        width: 100%;
+        border: none;
+        background-color: #f9f9f9;
+        font-size: 13px;
+        line-height: 15px;
+        border-radius: 5px;
+        box-shadow: none;
+        border: 1px solid rgba(62, 58, 57, 0.2);
+        &::placeholder {
+          color: rgba(151, 151, 151, 0.46);
+        }
+      }
+      ::-webkit-input-placeholder {
+        font-size: 15px;
+      }
+      ::-moz-placeholder {
+        font-size: 15px;
+      }
+    }
+  }
+
+  .nav-container {
+    height: 80px;
+    background-image: none;
+  }
+
+  .searchbar-md {
+    .searchbar-input {
+      padding: 12px 55px 12px 55px;
+      color: color($colors, dark-light);
+      width: 100%;
+      border: none;
+      background-color: #f9f9f9;
+      font-size: 13px;
+      line-height: 15px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+    }
+    input {
+      ::-webkit-input-placeholder {
+        font-size: 13px;
+      }
+      ::-moz-placeholder {
+        font-size: 13px;
+      }
+    }
+  }
+
+  .mobile-searchbar {
+    display: block;
+    @media (min-width: map-get($grid-breakpoints, lg)) {
+      display: none;
+    }
+    .toolbar-content {
+      display: grid;
+      grid-template-columns: 100%;
+    }
+  }
+}
+
+.currency-symbol {
+  text-transform: none;
+  padding-right: 7px;
+  padding-left: 4px;
+}

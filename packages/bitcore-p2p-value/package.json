@@ -1,0 +1,48 @@
+{
+  "name": "@sotatek-anhdao/bitcore-p2p-value",
+  "version": "8.22.6",
+  "description": "Interface to the Bitcoin Value P2P network for bivcore",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp test",
+    "test:ci": "npm run test",
+    "coverage": "gulp coverage",
+    "build": "gulp",
+    "pub": "npm run build && npm publish"
+  },
+  "keywords": [
+    "bitcoin",
+    "bivcore"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sotatek-AnhDao/bitcore-p2p-value.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "@sotatek-anhdao/bitcore-lib-value": "8.22.6",
+    "bloom-filter": "^0.2.0",
+    "buffers": "github:bitpay/node-buffers#v0.1.2-bitpay",
+    "socks5-client": "^0.3.6"
+  },
+  "devDependencies": {
+    "bitcore-build": "^8.22.2",
+    "brfs": "^1.2.0",
+    "chai": "~1.10.0",
+    "gulp": "^4.0.0",
+    "sinon": "^1.12.2"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bitpay/bivcore-p2p/issues"
+  },
+  "homepage": "https://github.com/bitpay/bivcore-p2p#readme",
+  "directories": {
+    "doc": "docs",
+    "lib": "lib",
+    "test": "test"
+  },
+  "author": ""
+}

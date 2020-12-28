@@ -1,0 +1,31 @@
+{
+  "bitcoreNode": {
+    "modules": ["./bitcoin-value"],
+    "services": {
+      "api": {
+        "wallets": {
+          "allowCreationBeforeCompleteSync": true
+        }
+      }
+    },
+    "chains": {
+      "BIV": {
+        "mainnet": {
+          "chainSource": "p2p",
+          "trustedPeers": [
+            {
+              "host": "127.0.0.1",
+              "port": 8339
+            }
+          ],
+          "rpc": {
+            "host": "127.0.0.1",
+            "port": 8338,
+            "username": "admin",
+            "password": "1"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+*debug.log
+node_modules/
+.env
+*bitcore.config.*
+**/package-lock.json
+*/node_modules/*
+**/ts_build
+.vscode
+.DS_Store
+*.swp
+
+# VIM ignore
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
+ts_build
+bivcore-lib.js

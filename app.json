@@ -1,0 +1,16 @@
+{
+  "apps": [
+    {
+      "name": "biv-node",
+      "script": "npm start",
+      "cwd": "packages/bitcore-node",
+      "watch": false
+    },
+    {
+      "name": "biv-insight",
+      "script": "CHAIN=BIV NETWORK=mainnet npm run ionic:serve",
+      "cwd": "packages/insight",
+      "watch": false
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+[Unit]
+Description=Bitcore Node
+After=network.target
+
+[Service]
+User=bivcore
+Group=bivcore
+ExecStart=/usr/bin/node /home/bivcore/bivcore/packages/bitcore-node/server.js
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,190 @@
+<ion-grid>
+  <ion-row class="top">
+    <ion-col col-7>
+      <div class="ellipsis">
+        <span *ngIf="showCoins">
+          <ion-icon name="add-circle" [hidden]="expanded" (click)="toggleExpanded()"></ion-icon>
+          <ion-icon name="remove-circle" [hidden]="!expanded" (click)="toggleExpanded()"></ion-icon>
+        </span>
+        <span>
+          <a (click)="goToTx($event, tx.txid)" href="#/{{ chainNetwork.chain }}/{{ chainNetwork.network }}/tx/{{ tx.txid }}" class="transaction-id">{{ tx.txid }}</a>
+        </span>
+      </div>
+    </ion-col>
+    <ion-col col-5 text-right>
+      <ion-note *ngIf="tx.time">
+        <span translate>mined on</span>
+        <time>{{ tx.time * 1000 | date:'medium' }}</time>
+      </ion-note>
+    </ion-col>
+  </ion-row>
+
+  <ion-row align-items-end class="small" *ngIf="!showCoins">
+    <ion-col col-12 text-right text-uppercase>
+      <ion-chip item-end color="danger" *ngIf="confirmations === -3">
+        <ion-label>
+          Invalid
+        </ion-label>
+      </ion-chip>
+      <ion-chip item-end color="warning" *ngIf="confirmations === -1">
+        <ion-label>
+          Unconfirmed
+        </ion-label>
+      </ion-chip>
+      <ion-chip item-end color="primary" *ngIf="confirmations === 1">
+        <ion-label>
+          1 Confirmation
+        </ion-label>
+      </ion-chip>
+      <ion-chip item-end color="primary" *ngIf="confirmations > 1">
+        <ion-label>
+          {{ confirmations }} Confirmations
+        </ion-label>
+      </ion-chip>
+      <ion-chip item-end color="default">
+        <ion-label>
+          {{ currencyProvider.getConvertedNumber(tx.valueOut, chainNetwork.chain) | number:'1.0-8' }} {{ currencyProvider.currencySymbol }}
+        </ion-label>
+      </ion-chip>
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="showCoins" align-items-start class="middle">
+    <ion-col col-12 col-md-5>
+
+      <ion-list class="no-input" [hidden]="!tx.isCoinBase">
+        <ion-item>
+          No Inputs (Newly Generated Coins)
+        </ion-item>
+      </ion-list>
+
+      <ion-list [hidden]="tx.isCoinBase">
+        <ion-item *ngFor="let vin of aggregateItems(tx.vin); let i = index ">
+
+          <div class="ellipsis">
+            <p>
+              <a (click)="goToAddress($event, vin.address)" href="#/{{ chainNetwork.chain }}/{{ chainNetwork.network }}/address/{{ getAddress(vin) }}"
+                [ngClass]="{'disabled-link': getAddress(vin) === 'Unparsed address' }">{{ getAddress(vin) }}</a>
+            </p>
+          </div>
+          <div class="tx-details">
+            <a href="#/{{ chainNetwork.chain }}/{{ chainNetwork.network }}/tx/{{ tx.txid }}">
+              <button item-start ion-button *ngIf="expanded" (click)="goToTx($event, vin.items[i].mintTxid, i, false)" clear
+                icon-only>
+                <ion-icon color="primary" name="ios-arrow-forward"></ion-icon>
+              </button>
+            </a>
+            <div [hidden]="!expanded" class="tx-details__content">
+              <p *ngIf="confirmations > 0">
+                <b>Confirmations</b> {{ confirmations }}</p>
+            </div>
+          </div>
+
+          <div item-end>
+            {{ currencyProvider.getConvertedNumber(vin.value, chainNetwork.chain) | number:'1.0-8' }} {{ currencyProvider.currencySymbol }}
+          </div>
+        </ion-item>
+
+        <ion-item *ngIf="tx.from">
+          <div class="ellipsis">
+            <p>
+              <a (click)="goToAddress($event, tx.from)">{{ tx.from }}</a>
+            </p>
+          </div>
+        </ion-item>
+      </ion-list>
+
+    </ion-col>
+
+    <ion-col col-12 col-md-1 text-center class="arrow-forward">
+      <ion-icon name="arrow-forward"></ion-icon>
+    </ion-col>
+
+    <ion-col col-12 col-md-6>
+      <ion-list>
+        <ion-item *ngFor="let vout of tx.vout; let i = index">
+          <div>
+            <div class="ellipsis">
+              <p>
+                <a [ngClass]="{'disabled-link': getAddress(vout) === 'Unparsed address' }"  href="#/{{ chainNetwork.chain }}/{{ chainNetwork.network }}/address/{{ getAddress(vout) }}"
+                  (click)="goToAddress($event, vout.address)">{{ getAddress(vout) }}</a>
+              </p>
+            </div>
+            <div *ngIf="expanded" class="tx-details__output">
+              <!-- <p>
+                <b>Script Template</b>
+                <i>{{ vout.script.type }}</i>
+              </p> -->
+              <p *ngIf="confirmations > 0">
+                <b>Confirmations</b> {{ confirmations }}</p>
+            </div>
+          </div>
+
+          <div item-end>
+            {{ currencyProvider.getConvertedNumber(vout.value, chainNetwork.chain) | number:'1.0-8' }} {{ currencyProvider.currencySymbol }}
+            <span [hidden]="!vout.spentTxid">(S)</span>
+            <span [hidden]="vout.spentTxid">(U)</span>
+          </div>
+
+          <!-- <a href="#/{{ chainNetwork.chain }}/{{ chainNetwork.network }}/tx/{{ tx.txid }}">
+            <button item-end ion-button *ngIf="expanded && vout.spentTxid && vout.spentTxid !== '' " (click)="
+              goToTx($event, vout.spentTxid, i, true)" clear icon-only>
+              <ion-icon color="primary" name="ios-arrow-forward"></ion-icon>
+            </button>
+          </a> -->
+        </ion-item>
+
+        <ion-item *ngIf="tx.to">
+          <div>
+            <div class="ellipsis">
+              <p>
+                <a (click)="goToAddress($event, tx.to)">{{ tx.to }}</a>
+              </p>
+            </div>
+          </div>
+        </ion-item>
+      </ion-list>
+    </ion-col>
+  </ion-row>
+
+  <ion-row align-items-start class="small bottom" *ngIf="showCoins">
+    <ion-col col-6>
+      <div *ngIf="!tx.isCoinBase && currencyProvider.getConvertedNumber(tx.fee) >= 0">
+        <ion-chip>
+          <ion-label>FEE
+            <span text-nowrap>{{ currencyProvider.getConvertedNumber(tx.fee, chainNetwork.chain) | number:'1.0-8' }}
+              {{ currencyProvider.currencySymbol }}</span>
+          </ion-label>
+        </ion-chip>
+      </div>
+    </ion-col>
+    <ion-col col-6 text-right>
+      <ion-chip color="danger" *ngIf="confirmations === -3">
+        <ion-label text-uppercase>Invalid</ion-label>
+      </ion-chip>
+      <ion-chip  color="warning" *ngIf="confirmations === -1">
+        <ion-label text-uppercase>Unconfirmed</ion-label>
+      </ion-chip>
+      <ion-chip  color="primary" *ngIf="confirmations === 1">
+        <ion-label text-uppercase>1 Confirmation</ion-label>
+      </ion-chip>
+      <ion-chip color="primary" *ngIf="confirmations > 1">
+        <ion-label text-uppercase>{{ confirmations }} Confirmations
+        </ion-label>
+      </ion-chip>
+      <ion-chip color="danger" *ngIf="tx.isRBF && confirmations === -1">
+        <ion-label text-uppercase>Replace By Fee (RBF) enabled
+        </ion-label>
+      </ion-chip>
+      <ion-chip color="danger" *ngIf="tx.hasUnconfirmedInputs">
+        <ion-label text-uppercase>Tx has unconfirmed inputs
+        </ion-label>
+      </ion-chip>
+      <ion-chip color="default" class="value">
+        <ion-label>{{ currencyProvider.getConvertedNumber(tx.valueOut, chainNetwork.chain) | number:'1.0-8' }}
+          {{ currencyProvider.currencySymbol }}
+        </ion-label>
+      </ion-chip>
+    </ion-col>
+  </ion-row>
+</ion-grid>

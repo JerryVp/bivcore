@@ -1,0 +1,113 @@
+<head-nav [chainNetwork]="chainNetwork"></head-nav>
+<ion-content>
+  <ion-grid fixed>
+    <div class="page-content">
+      <loader *ngIf="loading" [type]="'title'"></loader>
+
+      <error [message]="errorMessage" *ngIf="!loading && errorMessage"></error>
+
+      <div *ngIf="(!loading && !errorMessage)">
+        <div class="balance">
+          Current wallet balance is
+          <ion-icon class="currency-icon" name="logo-bitcoin"></ion-icon> {{
+          balance }}. You can get up to
+          <ion-icon class="currency-icon" name="logo-bitcoin"></ion-icon> {{
+          availableFaucet }}.
+        </div>
+        <div class="column-1">
+          <h1 class="content-container--heading">Bitcoin Value Faucet Testnet</h1>
+          <form>
+            <div class="wrap-biv">
+              <p class="ellipsis">
+                BIV Address<input
+                  type="text"
+                  name="address"
+                  #addressFaucet
+                  (input)="update($event)"
+                  placeholder="Enter your regtest address"
+                />
+              </p>
+              <p class="ellipsis">
+                BIV Number<input
+                  type="text"
+                  name="amount"
+                  #amountFaucet
+                  (keypress)="numberOnly($event)"
+                  (input)="updateBIVAmount($event)"
+                  placeholder="Enter your expected amount"
+                  inputmode="decimal"
+                /><button #faucetBtn [disabled]="!address || !amount || amount == 0" (click)="faucetCoin()">Faucet</button>
+              </p>
+            </div>
+          </form>
+        </div>
+
+        <div class="column-2">
+          <h2>BIV Address</h2>
+          <p>
+            Send coins back, when you don't need them anymore:
+            <span><a href="#/{{ chainNetwork.chain }}/{{ chainNetwork.network }}/address/{{ walletAddress }}">{{ walletAddress }}</a></span>
+          </p>
+          <qr-code value="{{ walletAddress }}" size="160"></qr-code>
+        </div>
+
+        <div class="column-3">
+          <h2>Last Transactions</h2>
+          <ion-row *ngFor="let tx of transactions">
+            <ion-col>
+              <div class="transaction-list">
+                <ion-grid>
+                  <ion-row class="top">
+                    <ion-col col-7>
+                      <span>>>></span>
+                      <a href="#/{{ chainNetwork.chain }}/{{ chainNetwork.network }}/tx/{{ tx.txid }}">{{ tx.txid }}</a>
+                    </ion-col>
+                    <ion-col col-5>
+                      mined on {{ tx.time | date:'medium' }}
+                    </ion-col>
+                  </ion-row>
+                  <ion-row class="content">
+                    <ion-list>
+                      <ion-item>
+                        <ion-row>
+                          <ion-col col-7>
+                            <a href="#/{{ chainNetwork.chain }}/{{ chainNetwork.network }}/address/{{ tx.address }}">{{ tx.address }}</a>
+                          </ion-col>
+                          <ion-col col-5>
+                            {{ currencyProvider.getConvertedNumber(tx.value, chainNetwork.chain) }}
+                            {{ currencyProvider.currencySymbol }}
+                          </ion-col>
+                        </ion-row>
+                      </ion-item>
+                    </ion-list>
+                  </ion-row>
+                  <ion-row class="foot">
+                    <ion-col col-7 *ngIf="tx.confirmations === -1">
+                      Pending
+                    </ion-col>
+                    <ion-col col-7 *ngIf="tx.confirmations === 1">
+                      1 Confirmation
+                    </ion-col>
+                    <ion-col col-7 *ngIf="tx.confirmations > 1">
+                      {{ tx.confirmations }} Confirmations
+                    </ion-col>
+                    <ion-col col-5>
+                      FEE  {{ currencyProvider.getConvertedNumber(tx.fee, chainNetwork.chain) | number:'1.0-8' }}
+                      {{ currencyProvider.currencySymbol }}
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="transactions.length === 0" class="no-txs">
+            <ion-col col-12>
+              There are no transactions involving this address.
+            </ion-col>
+          </ion-row>
+        </div>
+      </div>
+    </div>
+  </ion-grid>
+</ion-content>
+<footer [chainNetwork]="chainNetwork"></footer>
