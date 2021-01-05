@@ -42,7 +42,7 @@ export class ApiProvider {
   // TODO: check me
   public ratesAPI = {
     btc: 'https://bitpay.com/api/rates',
-    biv: 'https://gk-dev-value-coin-admin.sotatek.com/api/price?api_key=d95f59e4-e489-4703-85d1-9ee0bd414b29&type=biv&currency=usd',
+    biv: 'https://api-services.bitcoin-value.io/api/price?api_key=d95f59e4-e489-4703-85d1-9ee0bd414b29&type=biv&currency=usd',
   };
 
   public bwsUrl = {
