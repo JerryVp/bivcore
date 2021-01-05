@@ -81,7 +81,7 @@
                   Previous Block
                   <ion-note item-end *ngIf="block.height - 1 === 0">
                     <a (click)="goToPreviousBlock($event)"
-                      [ngClass]="{'disabled-link': block.height - 1 === 0 }">Null</a>
+                      [ngClass]="{'disabled-link': block.height - 1 === 0 }">0</a>
                   </ion-note>
                   <ion-note item-end *ngIf="block.height - 1 !== 0">
                     <a (click)="goToPreviousBlock($event)" href="#/{{ chainNetwork.chain }}/{{ chainNetwork.network }}/block/{{ block.height - 1}}">{{ block.height - 1 }}</a>
